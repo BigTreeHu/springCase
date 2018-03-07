@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+	 <mapper namespace="mybatis_mapper">
+	 	<select id="findUser" resultType="com.demo.model.User">
+	 		select * from user;
+	 	</select>
+	 	<select id="findUserById" parameterType="java.lang.Integer" resultType="com.demo.model.User">
+	 		select * from user where uid=#{uid};
+	 	</select>
+	 	<insert id="insertUser" parameterType="com.demo.model.User">
+	 		insert into user values(default,#{uname},#{usex},#{address},#{email});
+	 	</insert>
+	 	<update id="updateUser" parameterType="com.demo.model.User">
+	 		update user set uname=#{uname},usex=#{usex},address=#{address},email=#{email}  where  uid=#{uid}
+	 	</update>
+	 </mapper>
