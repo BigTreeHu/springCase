@@ -1,0 +1,45 @@
+<html>
+<head>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8">
+    <title>Upload Demo</title>
+
+    <script src="js/jquery-1.9.1.js"></script>
+    <script src="js/ajaxfileupload.js"></script>
+	   <script type="text/javascript">
+    
+     
+    function ajax_upload() { //具体的上传图片方法
+     
+            $.ajaxFileUpload({
+                fileElementId:'picture_upload',    //需要上传的文件域的ID，即<input type="file">的ID。
+                url:'http://localhost:8066/KaoShi/importPicFile', //后台方法的路径
+                type: 'post',   //当要提交自定义参数时，这个参数要设置成post
+                dataType: 'text',   //服务器返回的数据类型。可以为xml,script,json,html。如果不填写，jQuery会自动判断。
+                secureuri: false,   //是否启用安全提交，默认为false。
+                async : true,   //是否是异步
+                success: function(data,status) {   //提交成功后自动执行的处理函数，参数data就是服务器返回的数据。
+                 alert(status);
+                },
+                error: function(data) {  //提交失败自动执行的处理函数。
+               // alert(data.test)
+                  //  console.error(e);
+                }
+            });
+        
+    }
+    </script>
+     
+<body>
+ 
+   
+                <input id="picture_upload" name="file" type="file" >
+                    
+             <input  type="button" value="ad" onclick="ajax_upload()">
+                 
+            
+  
+ 
+     
+ 
+</body>
+</html>

@@ -1,0 +1,77 @@
+<dependency>
+  <groupId>commons-fileupload</groupId>
+  <artifactId>commons-fileupload</artifactId>
+  <version>1.2.2</version>
+</dependency>
+
+
+
+
+<!-- 配置MultipartResolver 用于文件上传 使用spring的CommosMultipartResolver -->  
+<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver"></bean>  
+
+
+*********************************************************************************
+
+
+	@RequestMapping(value="importPicFile" ,produces="text/html;charset=utf-8" )  
+	public  Map importPicFile1(
+	@RequestParam("file") MultipartFile file,HttpServletRequest request,HttpServletResponse response){  
+ 	response.setHeader("Access-Control-Allow-Origin", "*");
+	   
+	            Map<String,Object> map= new HashMap<String,Object>();  
+	            InputStream is;
+				try {
+					is = file.getInputStream();
+					String path=request.getRealPath("/upload");
+					System.out.println(path);
+					String filename=file.getOriginalFilename();
+					File fileasd=new File(path+"\\"+filename);
+					FileUtils.copyInputStreamToFile(is, fileasd);
+				} catch (IOException e) {
+			 
+					e.printStackTrace();
+				}
+				
+	              
+ 
+	             map.put("status", "200");
+	              
+	             return map;  
+	      } 
+
+
+
+
+*******************************************************************************
+
+	@RequestMapping(value="importPicFile" ,produces="text/html;charset=utf-8" )  
+	public  Map importPicFile1(
+	@RequestParam("file") MultipartFile file,HttpServletRequest request,HttpServletResponse response){  
+ 	response.setHeader("Access-Control-Allow-Origin", "*");
+	             System.out.println("进入上传方法：" + file.getName()); 
+	            Map<String,Object> map= new HashMap<String,Object>();  
+	          
+	                  String originalFilename=file.getOriginalFilename();
+	                  System.out.println(originalFilename);
+	                  String fileBaseName=FilenameUtils.getBaseName(originalFilename); 
+	                  System.out.println(fileBaseName);
+ 
+	             map.put("status", "200");
+	              
+	             return map;  
+	      }  
+
+
+
+			InputStream is=fname.getInputStream();
+			String path=request.getRealPath("/upload");
+			System.out.println(path);
+			String filename=fname.getOriginalFilename();
+			File file=new File(path+"\\"+filename);
+			FileUtils.copyInputStreamToFile(is, file);
+
+
+
+
+
