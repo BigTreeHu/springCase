@@ -1,0 +1,77 @@
+  //分页查询显示//查询班级
+ 	@RequestMapping("find")
+ 	@ResponseBody
+ 	public  Map GetTest(Integer page,HttpServletResponse response){
+ 		response.setHeader("Access-Control-Allow-Origin", "*");
+ 		Map map=new HashMap();
+ 		if (page==null) {
+ 			page=1;
+ 		}
+ 		Integer pageSize=5;
+ 		//设置分页
+ 		PageHelper.startPage(page, pageSize);
+ 		//查询
+ 		List<Map> clist=classesService.findClasses();
+ 	
+ 		PageInfo pageInfo=new PageInfo<>(clist);
+ 		//总条数
+ 	  long total=pageInfo.getTotal();
+ 		//计算总页数
+ 		Integer pagetotal=(int) (total%pageSize==0?total/pageSize:total/pageSize+1);
+ 		
+ 		//总条数
+		map.put("total", total);
+		//每页显示页数
+        map.put("pageSize", pageSize);
+		//当前页数
+		map.put("page",page);
+		//总页数
+		map.put("pagetotal",pagetotal);
+		//查询的数量
+		map.put("clist",pageInfo.getList());
+ 		
+ 		return map;
+ 		
+ 	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+**************************
+	<property name="plugins">
+			<array>
+				<!-- 引入分頁插件 -->
+				<bean class="com.github.pagehelper.PageInterceptor">
+					<property name="properties">
+						<!--使用下面的方式配置参数，一行配置一个 -->
+						<value>
+							offsetAsPageNum=true
+							rowBoundsWithCount=true
+							pageSizeZero=true
+							reasonable=true
+						</value>
+					</property>
+				</bean>
+			</array>
+		</property>
+*************************************************
+  	<dependency>  
+            <groupId>javax.servlet</groupId>  
+            <artifactId>servlet-api</artifactId>  
+            <version>2.5</version>  
+            <scope>provided</scope> 
+            </dependency> 
+            <dependency>
+     <groupId>com.github.pagehelper</groupId>
+     <artifactId>pagehelper</artifactId>
+     <version>5.1.2</version>
+  </dependency>
