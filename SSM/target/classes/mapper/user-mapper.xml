@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+	 <mapper namespace="user-mapper">
+	 	<select id="findUser" resultType="User" parameterType="java.util.Map">
+	 		select u.*,d.dname from user u,dept d where u.did=d.did
+	 	</select>
+	 	
+	 	<select id="count" resultType="java.lang.Integer" parameterType="java.util.Map">
+	 		select count(*) from user u,dept d where u.did=d.did
+	 	</select>
+	 	
+	 	<select id="findUserById" parameterType="java.lang.Integer" resultType="User">
+	 		select * from user where uid=#{uid};
+	 	</select>
+	 	<insert id="insertUser" parameterType="User">
+	 		insert into user values(default,#{uname},#{usex},#{password},#{email},#{did});
+	 	</insert>
+	 	<select id="selectdept" resultType="Dept" >
+	 		select * from dept
+	 	</select>
+	 	<update id="updateUser" parameterType="User">
+	 		update user set uname=#{uname},usex=#{usex},password=#{password},email=#{email},did=#{did} where uid=#{uid}
+	 	</update>
+	 	<delete id="deleteuser">
+	 		delete from user where uid=#{uid}
+	 	</delete>
+	 	<select id="login" parameterType="User" resultType="java.lang.Integer">
+	 		select count(*) from user where uname=#{uname} and password=#{password}
+	 	</select>
+	 </mapper>
