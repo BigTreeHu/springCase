@@ -1,0 +1,61 @@
+实体注解映射
+1、注解类
+@Entity 表示这个类是一个实体
+@Table(name="")表示这个实体对应的某个表,name指定表名
+
+方法注解（注解属性和数据表之间的关系映射）
+1、ID的注解
+@Id表示这个ID是一个主键
+@SequenceGenerator(name="abc",sequenceName="seq_dept",allocationSize=1)
+表示一个主键的生成器，name是自定义的名称，sequenceName表示数据库的序列名称
+@GeneratedValue(generator="abc",strategy=GenerationType.SEQUENCE)
+表示主键的生成策略，generator主键生成的名称，strategy表示主键生成策略
+
+一对一的注解
+1.Users(主表的注解)
+@OneToOne(cascade=CascadeType.ALL)
+表示一对一的关联关系
+@PrimaryKeyJoinColumn
+通常配置在主表对应的实体上，表示Userinfo的主键由Emp来生成
+2.Customer(重表的注解)
+@Id
+@GenericGenerator(name="pkabc",
+strategy="foreign",
+parameters={@Parameter(name="property",value="emp")})	
+@GeneratedValue(generator="pkabc")
+表示生成主键，并且主键的生成由主表的主键提供
+@OneToOne
+@JoinColumn(name="cid") 指定外键，如果不指定，hibernate会自动创建一个外键，外键就是重表的主键，因为这个表的主键由主表的主键生成，
+也就是说它即是主键也是外键 
+
+
+多对一的配置
+@ManyToOne
+@JoinColumn(name="deptid")
+在多的一方的get方法上配置一个@ManyToOne多对一
+@JoinColumn(name="deptid")表示关联一的一方在多的一方的外键字段名
+
+
+一对多的配置
+@OneToMany(fetch=FetchType.EAGER,mappedBy="dept",cascade=CascadeType.ALL)
+
+
+
+
+fetch=FetchType.EAGER 表示立即抓取
+mappedBy="dept"表示关联对方（Emp里的dept）里的自己
+
+
+
+
+多对多的配置
+@ManyToMany(fetch=FetchType.EAGER)
+@JoinTable(name="roles_userinfo",
+	   joinColumns=@JoinColumn(name="roleid"),
+	   inverseJoinColumns=@JoinColumn(name="userid"))
+多对多的配置：配置在对象属性的get方法上
+@ManyToMany(fetch=FetchType.EAGER)表示多对多的配置，并且是立即抓取
+@JoinTable配置中间表name="roles_userinfo"对应的中间表
+joinColumns=@JoinColumn(name="roleid")配置自己的ID
+inverseJoinColumns=@JoinColumn(name="userid")配置对方的ID
+
